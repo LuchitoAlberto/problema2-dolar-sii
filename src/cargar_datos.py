@@ -10,6 +10,7 @@ def cargar_datos(ruta_csv=None):
         precios (np.ndarray): Vector cronológico con los 48 precios (float64).
         etiquetas (list): Lista con etiquetas cortas tipo ['Ene-22', ..., 'Dic-25'].
         matriz_precios (np.ndarray): Matriz de 12 meses x 4 años (2022 a 2025).
+        aaaaaa
     """
     if ruta_csv is None:
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

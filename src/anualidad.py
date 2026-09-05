@@ -11,6 +11,7 @@ def redondear(valor):
     else:
         return round(valor, -1)
 resultados = []
+
 for item in datos_anios:
     anio = item["anio"]
     precio_enero = item["enero"]
@@ -19,14 +20,14 @@ for item in datos_anios:
     precio_enero_aprox = redondear(precio_enero) #redondeado a 2 cifras significativas
     precio_diciembre_aprox = redondear(precio_diciembre) #redondeado a 2 cifras significativas
 
-    error_enero = abs(precio_enero - precio_enero_aprox) #error absoluto en enero que la formula es (precio real - precioaproximado)
-    error_diciembre = abs(precio_diciembre - precio_diciembre_aprox) #error absoluto en diciembre que la formula es (precio real - precioaproximado)
+    error_enero = round(abs(precio_enero - precio_enero_aprox), 2) #error absoluto en enero que la formula es (precio real - precioaproximado)
+    error_diciembre = round(abs(precio_diciembre - precio_diciembre_aprox), 2) #error absoluto en diciembre que la formula es (precio real - precioaproximado)
 
-    var_real = precio_diciembre - precio_enero #variación real que la formula es (precio diciembre - precio enero)
-    var_aprox = precio_diciembre_aprox - precio_enero_aprox #variación aproximada que la formula es (precio diciembre aproximado - precio enero aproximado)
+    var_real = round(precio_diciembre - precio_enero, 2) #variación real que la formula es (precio diciembre - precio enero)
+    var_aprox = round(precio_diciembre_aprox - precio_enero_aprox, 2) #variación aproximada que la formula es (precio diciembre aproximado - precio enero aproximado)
 
-    error_absoltuto = error_enero + error_diciembre #el error absoluto es la suma de los errores absolutos de enero y diciembre
-    error_porcentual = (error_absoltuto / abs(var_real)) * 100 #error relativo procentual de la variacion
+    error_absoltuto = round(error_enero + error_diciembre, 2) #el error absoluto es la suma de los errores absolutos de enero y diciembre
+    error_porcentual = round((error_absoltuto / abs(var_real)) * 100, 2) #error relativo procentual de la variacion
     resultados.append({
         "anio": anio,
         "var_real": var_real,
@@ -40,4 +41,4 @@ resultados_ordenados = sorted(resultados, key=lambda x: x["error_porcentual"])
 
 print("Año\tVariación Real\tVariación Aproximada\tError Absoluto\tError Porcentual")
 for item in resultados_ordenados:
-    print(f"{item['anio']}\t{item['var_real']}\t{item['var_aprox']}\t{item['error_absoluto']}\t{item['error_porcentual']}")
+    print(f"{item['anio']}\t{item['var_real']}\t\t{item['var_aprox']}\t\t\t{item['error_absoluto']}\t\t{item['error_porcentual']}")

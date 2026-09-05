@@ -1,6 +1,5 @@
 import numpy as np
 from matplotlib.pyplot import plt
-import os
 
 
 def resolver_b1():
@@ -31,7 +30,7 @@ def resolver_b4():
 
 def resolver_b2():
     monto_inicial = 1_000_000.00
-    precios = datos['precio']
+    precios = datos['precio'] #esto lo puse asi pero no se como sacar los datos de anualidad o de cargar datos xDDD
     monto_float32 = np.float32(monto_inicial) #monto inicial en float32
     precio_float32 = precios.astype(np.float32) #precio en float32
     dolares_comp_float32 = (monto_float32 / precio_float32) #comprar dolares

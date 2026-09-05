@@ -7,27 +7,29 @@ from cargar_datos import cargar_datos
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def resolver_b1():
+    print("========= Resultados de B1 ===========")
     valor_real = 1000.76
     valor_aprox3 = 1000.0 #valor con 3 cifras significativas 1000.76 * 10^0 = 1.00076 * 10^3 = 1.00 * 10^3 = 1000.0
-    error_absoluto = abs(valor_real - valor_aprox3)
-    error_relativo = (error_absoluto / valor_real) * 100
+    error_absoluto = round(abs(valor_real - valor_aprox3), 2)
+    error_relativo = round((error_absoluto / valor_real) * 100, 2)
     print(f"Precio original: {valor_real}")
     print(f"Precio aproximado: {valor_aprox3}")
     print(f"Error absoluto: {error_absoluto}")
     print(f"Error relativo porcentual: {error_relativo}%")
 
 def resolver_b4():
+    print("========= Resultados de B4 ===========")
     precio_1 = 874.67
     precio_2 = 875.66
-    valor_exacto = precio_1 - precio_2
+    valor_exacto = round((precio_1 - precio_2), 2)
     p1_float32 = np.float32(precio_1) #valor con 32 bits
     p2_float32 = np.float32(precio_2) #valor con 32 bits
-    resta1 = p1_float32 - p2_float32
-    error1 = abs(resta1 - valor_exacto)
+    resta1 = (p1_float32 - p2_float32)
+    error1 = round(abs(resta1 - valor_exacto), 2)
     p1_float64 = np.float64(precio_1) #valor con 64 bits
     p2_float64 = np.float64(precio_2) #valor con 64 bits
-    resta2 = p1_float64 - p2_float64
-    error2 = abs(resta2 - valor_exacto)
+    resta2 = (p1_float64 - p2_float64)
+    error2 = round(abs(resta2 - valor_exacto), 2)
     print(f"Precio 1: {precio_1}")
     print(f"Precio 2: {precio_2}")
     print(f"Valor exacto: {valor_exacto}")
@@ -37,6 +39,7 @@ def resolver_b4():
     print(f"Error float64: {error2}")
     
 def resolver_b2(datos):
+    print("========= Resultados de B2 ===========")
     monto_inicial = 1_000_000.00
     precios = datos['precio'] #esto lo puse asi pero no se como sacar los datos de cargar_datos xDDD
     monto_float32 = np.float32(monto_inicial) #monto inicial en float32

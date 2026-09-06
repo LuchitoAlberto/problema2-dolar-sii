@@ -142,7 +142,7 @@ def resolver_A4(datos):
         anio, d_real, d_aprox, e_propagado, e_porcentual = r
         print(f"{anio}  | {d_real:>9.2f} | {d_aprox:>9.2f} | ±{e_propagado:>8.2f}  | {e_porcentual:>12.2f}%")
     print("-" * 55)
-    print("Respuesta A4: Los años menos confiables (como 2023) tienen en comun que la variacion real")
+    print("Respuesta A4: Los años menos confiables (como 2023) tienen en comun que la diferencia real")
     print("fue muy chica, por lo que el error de redondeo acumulado se vuelve dominante frente a la resta.\n")
 
 def resolver_A5(precios, etiquetas):

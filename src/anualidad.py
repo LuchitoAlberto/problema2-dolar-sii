@@ -49,6 +49,11 @@ for item in datos_anios:
 #con esto se ordena los datos de menor a mayor error porcentual
 resultados_ordenados = sorted(resultados, key=lambda x: x["error_porcentual"])
 
-print("Año\tVariación Real\tVariación Aproximada\tError Absoluto\tError Porcentual")
+print("\n--- Variacion anual (Enero a Diciembre) ---")
+print("Año   | Dif Real  | Dif Aprox | Error Abs  | Error Rel (%)")
+print("-" * 55)
 for item in resultados_ordenados:
-    print(f"{item['anio']}\t{item['var_real']}\t\t{item['var_aprox']}\t\t\t{item['error_absoluto']}\t\t{item['error_porcentual']}%")
+    print(f"{item['anio']}  | {item['var_real']:>9.2f} | {item['var_aprox']:>9.2f} | ±{item['error_absoluto']:>8.2f}  | {item['error_porcentual']:>12.2f}%")
+print("-" * 55)
+print("Respuesta: Los años con menor confiabilidad son aquellos donde la diferencia")
+print("fue muy chica, haciendo que el error de redondeo domine sobre la resta.\n")

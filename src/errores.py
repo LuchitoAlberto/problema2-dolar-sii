@@ -27,18 +27,16 @@ def resolver_A1(meses, anios, precios, etiquetas):
 
     indice_max_er = np.argmax(er)
 
-    print("=" * 70)
-    print("A1. ERROR DE REPRESENTACIÓN MES A MES (A 2 CIFRAS)")
-    print("=" * 70)
-    print(f"{'Etiqueta':<10} | {'Real ($)':<10} | {'Aprox 2C':<10} | {'Ea ($)':<10} | {'Er (%)':<10}")
-    print("-" * 70)
+    print("\n--- A1. Error de representacion mes a mes (2 cifras) ---")
+    print("Mes       | Real ($)  | Aprox 2C  | Error Abs | Error Rel (%)")
+    print("-" * 57)
     for i in range(len(precios)):
-        print(f"{etiquetas[i]:<10} | {precios[i]:<10.2f} | {aprox_2c[i]:<10.1f} | {ea[i]:<10.2f} | {er[i]:<10.2f}%")
+        print(f"{etiquetas[i]:<9} | {precios[i]:>9.2f} | {aprox_2c[i]:>9.1f} | {ea[i]:>9.2f} | {er[i]:>9.2f}%")
         
-    print("-" * 70)
-    print(f"Mes con mayor error relativo: {etiquetas[indice_max_er]} ({meses[indice_max_er]} {anios[indice_max_er]})")
-    print(f"Precio real: ${precios[indice_max_er]:.2f} | Aprox: ${aprox_2c[indice_max_er]:.0f}")
-    print(f"Error absoluto: ${ea[indice_max_er]:.2f} CLP | Error relativo: {er[indice_max_er]:.2f}%\n")
+    print("-" * 57)
+    print(f"Respuesta A1: El mes con mayor error relativo al redondear fue {etiquetas[indice_max_er]} ({meses[indice_max_er]} {anios[indice_max_er]})")
+    print(f"Precio real: ${precios[indice_max_er]:.2f} | Redondeado: ${aprox_2c[indice_max_er]:.0f}")
+    print(f"Dejo un error absoluto de ${ea[indice_max_er]:.2f} CLP y un error relativo de {er[indice_max_er]:.2f}%\n")
 
     return aprox_2c, ea, er
 
@@ -61,26 +59,24 @@ def resolver_A2(precios, etiquetas):
     dolar_aprox = monto / p_compra_aprox
     pesos_final = dolar_aprox * p_venta_aprox
 
-    #en multiplicación y división se suman los errores relativos
+    #en multiplicacion y division se suman los relativos
     er_pesos_final = er_compra + er_venta
     ea_pesos_final = pesos_final * (er_pesos_final / 100)
 
-    #ganancia: resta (el monto no tiene error)
+    #en la resta se pasa el error absoluto tal cual (el millon inicial no tiene error)
     ganancia_aprox = pesos_final - monto
     ea_ganancia = ea_pesos_final
     er_ganancia = (ea_ganancia / np.abs(ganancia_aprox)) * 100
 
     ganancia_real = ((monto / p_compra_real) * p_venta_real) - monto
 
-    print("=" * 70)
-    print("A2. SIMULACIÓN DE COMPRA-VENTA ($1.000.000 CLP)")
-    print("=" * 70)
-    print(f"Compra: {etiquetas[indice_compra]} (Real: ${p_compra_real:.2f}, Aprox: ${p_compra_aprox:.0f})")
-    print(f"Venta:  {etiquetas[indice_venta]} (Real: ${p_venta_real:.2f}, Aprox: ${p_venta_aprox:.0f})")
-    print(f"Ganancia real calculada: ${ganancia_real:,.2f} CLP")
-    print(f"Ganancia aproximada:     ${ganancia_aprox:,.2f} CLP")
-    print(f"Error propagado:         ±${ea_ganancia:,.2f} CLP ({er_ganancia:.2f}%)")
-    print(f"Resultado: Ganancia = ${ganancia_aprox:,.2f} ± ${ea_ganancia:,.2f} CLP\n")
+    print("--- A2. Evaluacion compra-venta ($1.000.000 CLP) ---")
+    print(f"Mes de compra: {etiquetas[indice_compra]} (Real: ${p_compra_real:.2f}, Aprox: ${p_compra_aprox:.0f})")
+    print(f"Mes de venta:  {etiquetas[indice_venta]} (Real: ${p_venta_real:.2f}, Aprox: ${p_venta_aprox:.0f})")
+    print(f"Ganancia real exacta:    ${ganancia_real:,.2f} CLP")
+    print(f"Ganancia con redondeo:   ${ganancia_aprox:,.2f} CLP")
+    print(f"Error propagado:         ±${ea_ganancia:,.2f} CLP (error porcentual: {er_ganancia:.2f}%)")
+    print(f"Respuesta A2: La ganancia final es ${ganancia_aprox:,.2f} ± ${ea_ganancia:,.2f} CLP\n")
 
 def resolver_A3():
     precio_dic2022 = 875.66
@@ -99,24 +95,20 @@ def resolver_A3():
     ea_diferencia = ea_dic23 + ea_dic22
     er_diferencia = (ea_diferencia / np.abs(diferencia_real)) * 100
 
-    print("=" * 70)
-    print("A3. CANCELACIÓN (DICIEMBRE 2022 vs DICIEMBRE 2023 A 3 CIFRAS)")
-    print("=" * 70)
-    print(f"Dic 2022 real: {precio_dic2022:.2f} | Aprox: {precio_dic2022_aprox:.1f} (Ea: {ea_dic22:.2f})")
-    print(f"Dic 2023 real: {precio_dic2023:.2f} | Aprox: {precio_dic2023_aprox:.1f} (Ea: {ea_dic23:.2f})")
-    print(f"Variación real:     ΔP = {diferencia_real:.2f} CLP")
-    print(f"Variación aprox:    ΔP = {diferencia_aprox:.2f} CLP")
-    print(f"Error propagado:    ±{ea_diferencia:.2f} CLP")
-    print(f"Error relativo:     {er_diferencia:.2f}%")
-    print(f"Rango con margen:   [{diferencia_aprox - ea_diferencia:.2f}, {diferencia_aprox + ea_diferencia:.2f}] CLP")
-    print("\n¿Se puede afirmar con seguridad si subió o bajó?")
-    print("El intervalo queda en [-1.67, -0.33], ambos negativos, por lo que bajó.")
-    print("Pero el error relativo es muy grande (~67.68%), casi tan grande como el valor.\n")
+    print("--- A3. Cancelacion entre diciembres (3 cifras) ---")
+    print(f"Dic 2022: real = {precio_dic2022:.2f} | aprox (3 cifras) = {precio_dic2022_aprox:.1f}")
+    print(f"Dic 2023: real = {precio_dic2023:.2f} | aprox (3 cifras) = {precio_dic2023_aprox:.1f}")
+    print(f"Variacion real:   ΔP = {diferencia_real:.2f} CLP")
+    print(f"Variacion aprox:  ΔP = {diferencia_aprox:.2f} CLP")
+    print(f"Error propagado:  ±{ea_diferencia:.2f} CLP")
+    print(f"Error relativo:   {er_diferencia:.2f}%")
+    print(f"Intervalo con margen: [{diferencia_aprox - ea_diferencia:.2f}, {diferencia_aprox + ea_diferencia:.2f}] CLP")
+    print("Respuesta A3: ¿Se puede afirmar con seguridad si subio o bajo?")
+    print("Si, se puede afirmar que bajo porque ambos extremos del intervalo son negativos [-1.67, -0.33].")
+    print("Sin embargo, la incertidumbre es enorme (67.68%), casi tan grande como el valor de la resta misma.\n")
 
 def resolver_A4(datos):
-    print("=" * 70)
-    print("A4. VARIACIÓN ANUAL (ENERO A DICIEMBRE)")
-    print("=" * 70)
+    print("--- A4. Variacion anual (Enero a Diciembre) ---")
 
     anios = [2022, 2023, 2024, 2025]
     resultados = []
@@ -141,22 +133,20 @@ def resolver_A4(datos):
 
         resultados.append((a, diferencia, diferencia_aprox, error_propagado, error_porcentual))
 
-    #ordenamos de menor a mayor error relativo
+    #ordenamos de menor a mayor error porcentual
     resultados.sort(key=lambda item: item[4])
 
-    print("Año   | Dif Real | Dif Aprox | Error Abs  | Error Rel (%)")
-    print("---------------------------------------------------------")
+    print("Año   | Dif Real  | Dif Aprox | Error Abs  | Error Rel (%)")
+    print("-" * 55)
     for r in resultados:
         anio, d_real, d_aprox, e_propagado, e_porcentual = r
-        print(f"{anio}  | {d_real:8.2f} | {d_aprox:9.2f} | ±{e_propagado:9.2f} | {e_porcentual:12.2f}%")
-    print("---------------------------------------------------------")
-    print("Los años poco confiables tienen en común que la variación neta fue chica,")
-    print("haciendo que el error de redondeo domine sobre la diferencia real.\n")
+        print(f"{anio}  | {d_real:>9.2f} | {d_aprox:>9.2f} | ±{e_propagado:>8.2f}  | {e_porcentual:>12.2f}%")
+    print("-" * 55)
+    print("Respuesta A4: Los años menos confiables (como 2023) tienen en comun que la variacion real")
+    print("fue muy chica, por lo que el error de redondeo acumulado se vuelve dominante frente a la resta.\n")
 
 def resolver_A5(precios, etiquetas):
-    print("=" * 70)
-    print("A5. MEJOR COMPRA Y MEJOR VENTA")
-    print("=" * 70)
+    print("--- A5. Mejor compra y mejor venta ---")
 
     indice_min = np.argmin(precios)
     indice_max = np.argmax(precios)
@@ -170,22 +160,21 @@ def resolver_A5(precios, etiquetas):
     rentabilidad = ((precio_max - precio_min) / precio_min) * 100
     rentabilidad_aprox = ((precio_max_aprox - precio_min_aprox) / precio_min_aprox) * 100
 
-    #propagamos los errores relativos
+    #propagamos los relativos
     er_compra = (np.abs(precio_min - precio_min_aprox) / precio_min) * 100
     er_venta = (np.abs(precio_max - precio_max_aprox) / precio_max) * 100
     er_total = er_compra + er_venta
 
     ea_rentabilidad = rentabilidad_aprox * (er_total / 100)
 
-    print(f"Comprar en mínimo: {etiquetas[indice_min]} -> Real: ${precio_min:.2f} | Aprox: ${precio_min_aprox:.0f}")
-    print(f"Vender en máximo:  {etiquetas[indice_max]} -> Real: ${precio_max:.2f} | Aprox: ${precio_max_aprox:.0f}")
-    print(f"Rentabilidad real: {rentabilidad:.2f}%")
-    print(f"Rentabilidad aprox: {rentabilidad_aprox:.2f}% ± {ea_rentabilidad:.2f}%")
-    print(f"Margen estimado:   [{rentabilidad_aprox - ea_rentabilidad:.2f}%, {rentabilidad_aprox + ea_rentabilidad:.2f}%]")
-
-    print("\n¿La conclusión sobrevive al error?")
-    print("Sí, porque la rentabilidad esperada ronda el 25% frente a un error menor al 1%,")
-    print("por lo que la ganancia es clara y la conclusión no queda en duda.\n")
+    print(f"Mejor compra (minimo): {etiquetas[indice_min]} -> Real: ${precio_min:.2f} | Aprox: ${precio_min_aprox:.0f}")
+    print(f"Mejor venta (maximo):  {etiquetas[indice_max]} -> Real: ${precio_max:.2f} | Aprox: ${precio_max_aprox:.0f}")
+    print(f"Rentabilidad real:     {rentabilidad:.2f}%")
+    print(f"Rentabilidad aprox:    {rentabilidad_aprox:.2f}% ± {ea_rentabilidad:.2f}%")
+    print(f"Rango de rentabilidad: [{rentabilidad_aprox - ea_rentabilidad:.2f}%, {rentabilidad_aprox + ea_rentabilidad:.2f}%]")
+    print("Respuesta A5: ¿La conclusion sobrevive al error?")
+    print("Si, totalmente. La rentabilidad es de alrededor del 25% mientras que la incertidumbre")
+    print("es menor al 1%, asi que la recomendacion de compra y venta conlleva a un profit claro.\n")
 
 if __name__ == "__main__":
     datos = cargar_datos()

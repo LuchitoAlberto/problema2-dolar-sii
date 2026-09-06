@@ -1,7 +1,7 @@
 import numpy as np
 from cargar_datos import cargar_datos
 
-# Redondeo a n cifras significativas usando potencias de 10
+#redondeo a n cifras significativas usando potencias de 10
 def redondear(arreglo, cifras):
     arreglo = np.asarray(arreglo, dtype=float)
 
@@ -45,7 +45,7 @@ def resolver_A1(meses, anios, precios, etiquetas):
 def resolver_A2(precios, etiquetas):
     monto = 1000000
 
-    # Elegimos marzo 2022 (compra) y julio 2022 (venta)
+    #elegimos marzo 2022 (compra) y julio 2022 (venta)
     indice_compra = 2
     indice_venta = 6
 
@@ -58,15 +58,14 @@ def resolver_A2(precios, etiquetas):
     er_compra = error_r(p_compra_real, p_compra_aprox)
     er_venta = error_r(p_venta_real, p_venta_aprox)
 
-    # 1. Comprar dólares (división) y 2. Venderlos (multiplicación)
     dolar_aprox = monto / p_compra_aprox
     pesos_final = dolar_aprox * p_venta_aprox
 
-    # En multiplicación y división se suman los errores relativos
+    #en multiplicación y división se suman los errores relativos
     er_pesos_final = er_compra + er_venta
     ea_pesos_final = pesos_final * (er_pesos_final / 100)
 
-    # Ganancia: resta (el monto no tiene error)
+    #ganancia: resta (el monto no tiene error)
     ganancia_aprox = pesos_final - monto
     ea_ganancia = ea_pesos_final
     er_ganancia = (ea_ganancia / np.abs(ganancia_aprox)) * 100
@@ -96,7 +95,7 @@ def resolver_A3():
     diferencia_real = precio_dic2023 - precio_dic2022
     diferencia_aprox = precio_dic2023_aprox - precio_dic2022_aprox
 
-    # En la resta se suman los errores absolutos
+    #en la resta se suman los errores absolutos
     ea_diferencia = ea_dic23 + ea_dic22
     er_diferencia = (ea_diferencia / np.abs(diferencia_real)) * 100
 
@@ -142,7 +141,7 @@ def resolver_A4(datos):
 
         resultados.append((a, diferencia, diferencia_aprox, error_propagado, error_porcentual))
 
-    # Ordenamos de menor a mayor error relativo
+    #ordenamos de menor a mayor error relativo
     resultados.sort(key=lambda item: item[4])
 
     print("Año   | Dif Real | Dif Aprox | Error Abs  | Error Rel (%)")
@@ -171,7 +170,7 @@ def resolver_A5(precios, etiquetas):
     rentabilidad = ((precio_max - precio_min) / precio_min) * 100
     rentabilidad_aprox = ((precio_max_aprox - precio_min_aprox) / precio_min_aprox) * 100
 
-    # Propagamos los errores relativos
+    #propagamos los errores relativos
     er_compra = (np.abs(precio_min - precio_min_aprox) / precio_min) * 100
     er_venta = (np.abs(precio_max - precio_max_aprox) / precio_max) * 100
     er_total = er_compra + er_venta

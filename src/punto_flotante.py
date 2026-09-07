@@ -74,7 +74,7 @@ def resolver_B4():
     print("  compartian las primeras cifras (87...), al restarse se cancelan y quedan solo unas 3 o 4 cifras validas.")
     print("- Cifras validas en float64: Como tiene 16 cifras decimales, la perdida no afecta y quedan casi 13 cifras validas.")
     print("- Conexion con A3: Es la misma cancelacion que calculamos a mano en A3,")
-    print("  solo que aqui ocurre directamente en el computador por la falta de bits.\n")
+    print("  solo que aqui ocurre directamente en el computador por la falta de bits. \n")
 
 def graficos(datos, derivado_float32, derivado_float64):
     carpeta_raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

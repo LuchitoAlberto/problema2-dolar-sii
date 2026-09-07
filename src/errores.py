@@ -263,7 +263,6 @@ def generar_graficos(precios, etiquetas, aprox_2c, ea, er):
     plt.savefig(os.path.join(carpeta_graficos, "4_rentabilidad_minimo.png"), dpi=300)
     plt.close()
 
-
 if __name__ == "__main__":
     datos = cargar_datos()
     

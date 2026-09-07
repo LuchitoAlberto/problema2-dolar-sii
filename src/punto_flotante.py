@@ -21,7 +21,7 @@ def resolver_B1():
     print("Respuesta B1:")
     print("En computacion un numero en punto flotante guarda sus digitos en la mantisa.")
     print("Redondear a solo 2 o 3 cifras equivale a tener una mantisa de muy pocos bits en binario,")
-    print("lo que descarta los decimales y mete error de representacion.\n")
+    print("lo que descarta los decimales y mete error de representacion. \n")
 
 def resolver_B2(datos):
     print("--- B2. Prueba de ida y vuelta ---")

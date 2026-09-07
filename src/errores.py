@@ -1,4 +1,6 @@
 import numpy as np
+import os
+import matplotlib.pyplot as plt
 from cargar_datos import cargar_datos
 
 #redondeo a n cifras significativas usando potencias de 10
@@ -176,6 +178,95 @@ def resolver_A5(precios, etiquetas):
     print("Si, totalmente. La rentabilidad es de alrededor del 25% mientras que la incertidumbre")
     print("es menor al 1%, asi que la recomendacion de compra y venta conlleva a un profit claro.\n")
 
+def generar_graficos(precios, etiquetas, aprox_2c, ea, er):
+    carpeta_raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    carpeta_graficos = os.path.join(carpeta_raiz, 'graficos')
+    os.makedirs(carpeta_graficos, exist_ok=True) #crear carpeta si no existe
+
+    posiciones = np.arange(len(precios)) #0 a 47
+
+    # 1. Serie mensual del dolar observado 2022-2025 (linea)
+    plt.figure(figsize=(11, 4))
+    plt.plot(posiciones, precios, color='blue', label='Dólar observado')
+    plt.xticks(posiciones[::3], etiquetas[::3], rotation=45)
+    plt.title("Serie mensual del dólar observado (2022 - 2025)")
+    plt.xlabel("Mes")
+    plt.ylabel("Precio ($ CLP)")
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(os.path.join(carpeta_graficos, "1_serie_tiempo.png"), dpi=300)
+    plt.close()
+    print("Gráfico 1 guardado en: graficos/1_serie_tiempo.png")
+
+    # 2. Variacion mes a mes ΔP (barras con error propagado)
+    delta_real = np.diff(precios) #precio mes siguiente - precio actual
+    error_delta = ea[:-1] + ea[1:] #se suman los errores absolutos en la resta
+    pos_delta = np.arange(len(delta_real))
+    etiquetas_delta = etiquetas[1:]
+
+    plt.figure(figsize=(11, 4))
+    plt.bar(pos_delta, delta_real, yerr=error_delta, capsize=2, color='skyblue', edgecolor='black', label='ΔP ± error')
+    plt.axhline(0, color='black', linewidth=1)
+    plt.xticks(pos_delta[::3], etiquetas_delta[::3], rotation=45)
+    plt.title("Variación mes a mes (ΔP)")
+    plt.xlabel("Mes")
+    plt.ylabel("Variación ($ CLP)")
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(os.path.join(carpeta_graficos, "2_variacion_mes_a_mes.png"), dpi=300)
+    plt.close()
+    print("Gráfico 2 guardado en: graficos/2_variacion_mes_a_mes.png")
+
+    # 3. Error de representacion por mes a 2 cifras (barras de un solo color)
+    plt.figure(figsize=(11, 4))
+    plt.bar(posiciones, er, color='cornflowerblue', edgecolor='black')
+    plt.xticks(posiciones[::3], etiquetas[::3], rotation=45)
+    plt.title("Error relativo de representación mes a mes (2 cifras)")
+    plt.xlabel("Mes")
+    plt.ylabel("Error relativo (%)")
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.tight_layout()
+    plt.savefig(os.path.join(carpeta_graficos, "3_error_representacion.png"), dpi=300)
+    plt.close()
+    print("Gráfico 3 guardado en: graficos/3_error_representacion.png")
+
+    # 4. Rentabilidad comprando en el minimo y vendiendo despues
+    indice_min = np.argmin(precios) #febrero 2023
+    p_compra_aprox = aprox_2c[indice_min]
+    er_compra = er[indice_min]
+
+    meses_posteriores = posiciones[indice_min + 1:]
+    etiquetas_posteriores = etiquetas[indice_min + 1:]
+
+    rentabilidad = []
+    error_rentabilidad = []
+
+    for i in meses_posteriores:
+        p_venta_aprox = aprox_2c[i]
+        er_venta = er[i]
+
+        rent_aprox = ((p_venta_aprox - p_compra_aprox) / p_compra_aprox) * 100
+        er_total = er_compra + er_venta
+        ea_rent = rent_aprox * (er_total / 100)
+
+        rentabilidad.append(rent_aprox)
+        error_rentabilidad.append(ea_rent)
+
+    plt.figure(figsize=(11, 4))
+    plt.errorbar(range(len(meses_posteriores)), rentabilidad, yerr=error_rentabilidad, fmt='-o', markersize=3, color='purple', ecolor='gray', capsize=2)
+    plt.axhline(0, color='black', linewidth=1, linestyle='--')
+    plt.xticks(range(len(meses_posteriores))[::2], etiquetas_posteriores[::2], rotation=45)
+    plt.title("Rentabilidad comprando en el mínimo y vendiendo en meses posteriores")
+    plt.xlabel("Mes de venta")
+    plt.ylabel("Rentabilidad (%)")
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.tight_layout()
+    plt.savefig(os.path.join(carpeta_graficos, "4_rentabilidad_minimo.png"), dpi=300)
+    plt.close()
+    print("Gráfico 4 guardado en: graficos/4_rentabilidad_minimo.png\n")
+
 if __name__ == "__main__":
     datos = cargar_datos()
     
@@ -185,8 +276,10 @@ if __name__ == "__main__":
     
     etiquetas = [f"{str(m)[:3]}-{str(a)[2:]}" for m, a in zip(meses, anios)]
     
-    resolver_A1(meses, anios, precios, etiquetas)
+    aprox_2c, ea, er = resolver_A1(meses, anios, precios, etiquetas)
     resolver_A2(precios, etiquetas)
     resolver_A3()
     resolver_A4(datos)
     resolver_A5(precios, etiquetas)
+    
+    generar_graficos(precios, etiquetas, aprox_2c, ea, er)

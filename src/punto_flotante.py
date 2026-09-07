@@ -101,7 +101,7 @@ def graficos(datos, derivado_float32, derivado_float64):
     plt.legend()
     plt.tight_layout()
     
-    ruta_imagen = os.path.join(carpeta_graficos, "grafica_ida_vuelta.png")
+    ruta_imagen = os.path.join(carpeta_graficos, "5_grafica_ida_vuelta.png")
     plt.savefig(ruta_imagen, dpi=300) #alta calidad
     plt.close()
     print("Grafico guardado en: graficos/grafica_ida_vuelta.png\n")

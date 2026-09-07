@@ -197,7 +197,6 @@ def generar_graficos(precios, etiquetas, aprox_2c, ea, er):
     plt.tight_layout()
     plt.savefig(os.path.join(carpeta_graficos, "1_serie_tiempo.png"), dpi=300)
     plt.close()
-    print("Gráfico 1 guardado en: graficos/1_serie_tiempo.png")
 
     # 2. Variacion mes a mes ΔP (barras con error propagado)
     delta_real = np.diff(precios) #precio mes siguiente - precio actual
@@ -217,7 +216,6 @@ def generar_graficos(precios, etiquetas, aprox_2c, ea, er):
     plt.tight_layout()
     plt.savefig(os.path.join(carpeta_graficos, "2_variacion_mes_a_mes.png"), dpi=300)
     plt.close()
-    print("Gráfico 2 guardado en: graficos/2_variacion_mes_a_mes.png")
 
     # 3. Error de representacion por mes a 2 cifras (barras de un solo color)
     plt.figure(figsize=(11, 4))
@@ -230,7 +228,6 @@ def generar_graficos(precios, etiquetas, aprox_2c, ea, er):
     plt.tight_layout()
     plt.savefig(os.path.join(carpeta_graficos, "3_error_representacion.png"), dpi=300)
     plt.close()
-    print("Gráfico 3 guardado en: graficos/3_error_representacion.png")
 
     # 4. Rentabilidad comprando en el minimo y vendiendo despues
     indice_min = np.argmin(precios) #febrero 2023
@@ -265,7 +262,7 @@ def generar_graficos(precios, etiquetas, aprox_2c, ea, er):
     plt.tight_layout()
     plt.savefig(os.path.join(carpeta_graficos, "4_rentabilidad_minimo.png"), dpi=300)
     plt.close()
-    print("Gráfico 4 guardado en: graficos/4_rentabilidad_minimo.png\n")
+
 
 if __name__ == "__main__":
     datos = cargar_datos()

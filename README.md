@@ -6,26 +6,58 @@
 
 ---
 
-En este trabajo analizamos cómo afecta redondear a pocas cifras significativas y qué pasa cuando restamos precios muy parecidos, usando el promedio mensual del dólar en Chile publicado por el SII.
+## Descripción del Proyecto
+En este laboratorio se analiza el impacto del redondeo en punto flotante y el fenómeno de "cancelación catastrófica" al operar con el valor mensual del dólar observado en Chile con datos del SII entre enero de 2022 y diciembre de 2025. 
 
-### Archivos del proyecto
-* `data/`: Contiene el CSV con los precios mensuales del dólar.
-* `src/cargar_datos.py`: Script para leer el archivo CSV usando NumPy.
-* `src/errores.py`: Resuelve las preguntas de error (A1 a A5) y guarda los primeros 4 gráficos.
-* `src/anualidad.py`: Revisa la variación de enero a diciembre para cada año.
-* `src/punto_flotante.py`: Pruebas de float32 vs float64, ida y vuelta con el millón de pesos y gráfico 5.
-* `graficos/`: Carpeta donde se guardan las imágenes generadas.
-* `INFORME.md`: Respuestas a las preguntas finales sobre cuándo convenía comprar y vender.
+Se evalúan estrategias de compra y venta propagando errores en operaciones de multiplicación, división y resta, determinando numéricamente en qué casos las decisiones financieras son confiables y en cuáles el margen de error destruye la certeza del resultado.
 
-### Cómo ejecutar los códigos
+---
 
-Instalar las librerías necesarias:
+## Estructura del Repositorio
+
+```text
+problema2-dolar-sii/
+├── README.md                <- descripción del proyecto y forma de uso
+├── INFORME.md               <- documento de entrega con el análisis financiero
+├── requirements.txt         <- dependencias necesarias (numpy, matplotlib)
+├── data/
+│   └── dolar_observado_sii_2022_2025.csv <- dataset oficial del SII (48 meses)
+├── src/
+│   ├── cargar_datos.py      <- carga del archivo CSV con NumPy (structured array)
+│   ├── errores.py           <- resolución preguntas A1 a A5 y gráficos 1 al 4
+│   ├── anualidad.py         <- variación y error año a año de enero a diciembre
+│   └── punto_flotante.py    <- pruebas en float32/float64, ida y vuelta y gráfico 5
+└── graficos/                <- figuras generadas en formato PNG
+    ├── 1_serie_tiempo.png
+    ├── 2_variacion_mes_a_mes.png
+    ├── 3_error_representacion.png
+    ├── 4_rentabilidad_minimo.png
+    └── 5_grafica_ida_vuelta.png
+```
+
+---
+
+## Instalación de dependencias
+
+Para instalar las librerías necesarias se ocupa pip:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-Para correr los scripts:
+---
+
+## Ejecución de los scripts
+
+Para ejecutar los cálculos y generar las imágenes en la carpeta `graficos/`:
+
 ```bash
+# 1. Cálculos de error (A1 a A5) y gráficos 1 al 4:
 python src/errores.py
+
+# 2. Variación anual (Enero a Diciembre):
 python src/anualidad.py
+
+# 3. Pruebas de punto flotante, ida y vuelta y gráfico 5:
 python src/punto_flotante.py
+```
